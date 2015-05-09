@@ -8,6 +8,7 @@ What that looks like remains to be seen! Join in if you want to help figure it o
 
 # index
 
+* [Basic Census Reporter API with Pandas](Basic Census Reporter API with Pandas.ipynb)
 * [Looking at Black/White income gap in cities / FiveThirtyEight article](538_race_income_gap.ipynb)
 
 
