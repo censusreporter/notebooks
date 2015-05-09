@@ -1,0 +1,6 @@
+bokeh==0.8.2
+ipython==3.1.0
+pandas==0.16.0
+jsonschema==2.4.0
+psycopg2==2.6
+SQLAlchemy==1.0.4
