@@ -11,6 +11,16 @@ def _clean_list_arg(arg,default):
     return arg
 
 def json_data(tables=None, geoids=None, release='latest'):
+    """Make a basic API request for data for a given table, geoid, and/or release.
+
+    tables -- An ACS table ID as a string, or a list of such IDs. Default: 'B01001'
+    geoids -- A Census geoID as a string, or a list of such IDs. Default: '040|01000US' ('all states in the US')
+    release -- The ACS release from which to retrieve data. Should be one of:
+        latest - (default) the ACS release which has data for all of the requested geographies
+        acs2013_1yr - the 2013 1-year ACS data. Only includes geographies with population >65,000
+        acs2013_3yr - the 2011-13 3-year ACS data. Only includes geographies with population >20,000
+        acs2013_5yr - the 2009-13 5-year ACS data. Includes all geographies covered in the ACS.
+    """
     geoids = _clean_list_arg(geoids,'040|01000US')
     tables = _clean_list_arg(tables,'B01001')
  
@@ -56,6 +66,21 @@ def _prep_headers_for_pandas(json_data,separator=":", level=None):
     return headers
 
 def get_dataframe(tables=None, geoids=None, release='latest',level=None,place_names=True,column_names=True):
+    """Return a pandas DataFrame object for the given tables and geoids.
+
+    Keyword arguments (all optional):
+    tables -- An ACS table ID as a string, or a list of such IDs. Default: 'B01001'
+    geoids -- A Census geoID as a string, or a list of such IDs. Default: '040|01000US' ('all states in the US')
+    release -- The ACS release from which to retrieve data. Should be one of:
+        latest - (default) the ACS release which has data for all of the requested geographies
+        acs2013_1yr - the 2013 1-year ACS data. Only includes geographies with population >65,000
+        acs2013_3yr - the 2011-13 3-year ACS data. Only includes geographies with population >20,000
+        acs2013_5yr - the 2009-13 5-year ACS data. Includes all geographies covered in the ACS.
+    level -- if provided, should be an integer representing the maximum "indent level" of columns to be returned. Generally, '0' is the total column.
+    place_names -- specify False to omit a 'name' column for each geography row
+    column_names -- specify False to preserve the coded column names instead of using verbal labels
+
+    """
     response = json_data(tables, geoids, release)
     df = pd.DataFrame.from_dict(_prep_data_for_pandas(response),orient='index')
     df = df.reindex_axis(sorted(df.columns), axis=1)
