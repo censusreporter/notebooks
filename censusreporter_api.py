@@ -82,6 +82,8 @@ def get_dataframe(tables=None, geoids=None, release='latest',level=None,place_na
 
     """
     response = json_data(tables, geoids, release)
+    if 'error' in response:
+        raise Exception(response['error'])
     df = pd.DataFrame.from_dict(_prep_data_for_pandas(response),orient='index')
     df = df.reindex_axis(sorted(df.columns), axis=1)
     if column_names or level is not None:
