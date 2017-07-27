@@ -5,3 +5,7 @@ SQLAlchemy==1.0.4
 bokeh==0.11.1
 matplotlib==1.5.1
 jupyter==1.0.0
+jupyter-client==5.1.0
+jupyter-console==5.1.0
+jupyter-core==4.3.0
+six==1.10.0
